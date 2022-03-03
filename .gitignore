@@ -34,3 +34,4 @@ build/
 
 ### Spring boot ###
 *.properties
+!dummy.properties
