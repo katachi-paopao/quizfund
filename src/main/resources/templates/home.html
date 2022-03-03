@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width">
+<meta name="_csrf" th:content="${_csrf.token}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<link th:href="@{/css/home.css}" rel="stylesheet">
+
+<title>QuizFund</title>
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:replace="__${header}__">
+	</div>
+
+	<v-main id="main">
+		<v-container class="centerize">
+			<transition name="slide">
+				<div v-if="index == 0" key="aaa" class="copy">
+					<div class="top_copy mt-12">
+						<h1>クイズを作る。クイズを楽しむ。</h1>
+					</div>
+					<div class="top_copy">
+						<h1>みんなで遊ぼう。「QuizFund」</h1>
+					</div>
+				</div>
+				<div v-if="index == 1" key="bbb" class="copy">
+					<div class="top_copy mt-12">
+						<h1>自分だけのクイズを作る。</h1>
+					</div>
+				</div>
+				<div v-if="index == 2" key="ccc" class="copy">
+					<div class="top_copy mt-12">
+					<h1>作ったクイズをみんなに公開しよう。</h1>
+					</div>
+				</div>
+			</transition>
+		</v-container>
+
+		<v-container class="centerize">
+			<v-carousel v-model="index" :show-arrows="false" cycle @update="index">
+				<v-carousel-item v-for="(img, i) in images" :key="'img_' + i" :src="img.src" contain>
+				</v-carousel-item>
+			</v-carousel>
+		</v-container>
+	</v-main>
+
+	<div th:replace="__${footer}__">
+	</div>
+
+</v-app>
+<script th:src="@{/js/home.js}" type="module"></script>
+</body>
+</html>

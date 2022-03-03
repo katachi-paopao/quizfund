@@ -1,0 +1,66 @@
+CREATE TABLE IF NOT EXISTS authorization (
+	provider_name VARCHAR(255),
+	provider_id VARCHAR(255),
+	user_uuid CHAR(36) NOT NULL,
+
+	PRIMARY KEY (provider_name, provider_id)
+);
+
+CREATE TABLE IF NOT EXISTS quiz (
+	id SERIAL PRIMARY KEY,
+	format boolean NOT NULL,
+	text VARCHAR(200) NOT NULL,
+	appearance INT UNSIGNED NOT NULL DEFAULT 0,
+	correct int UNSIGNED NOT NULL DEFAULT 0,
+	created_by CHAR(36) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS quizset (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	introduction VARCHAR(200) DEFAULT NULL,
+	create_by char(36) NOT NULL,
+	is_open boolean NOT NULL,
+	play_count int NOT NULL,
+	is_random boolean NOT NULL,
+	num int NOT NULL DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS quizset_item (
+	quizset_id BIGINT UNSIGNED NOT NULL,
+	quiz_id BIGINT UNSIGNED NOT NULL,
+	seral int UNSIGNED NOT NULL,
+	PRIMARY KEY (quizset_id, quiz_id),
+	FOREIGN KEY (quizset_id) REFERENCES quizset(id) ON DELETE CASCADE,
+	FOREIGN KEY (quiz_id) REFERENCES quiz(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS typing_option (
+	id BIGINT UNSIGNED PRIMARY KEY,
+	ans_length TINYINT UNSIGNED DEFAULT NULL,
+	ans_type TINYINT UNSIGNED NOT NULL,
+	FOREIGN KEY (id) REFERENCES quiz(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS typing_answer (
+	id BIGINT UNSIGNED,
+	serial TINYINT UNSIGNED,
+	answer VARCHAR(12) NOT NULL,
+	PRIMARY KEY (id, serial),
+	FOREIGN KEY (id) REFERENCES quiz(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user (
+	uuid CHAR(36) PRIMARY KEY,
+	mail VARCHAR(255) NOT NULL,
+	password CHAR(60) DEFAULT NULL,
+	name VARCHAR(12) NOT NULL DEFAULT 'No Name'
+);
+
+CREATE TABLE IF NOT EXISTS user_temp (
+	uuid CHAR(36) PRIMARY KEY,
+	mail VARCHAR(255) NOT NULL,
+	password CHAR(60) DEFAULT NULL,
+	name VARCHAR(12) NOT NULL DEFAULT 'No Name',
+	created_on DATETIME NOT NULL
+)

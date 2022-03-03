@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width">
+<meta name="_csrf" th:content="${_csrf.token}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<link th:href="@{/css/home.css}" rel="stylesheet">
+<link th:href="@{/css/quizlist.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<title>QuizFund</title>
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:include="__${header}__">
+	</div>
+
+	<v-main>
+		<v-container>
+			<div class="quizlist__menu">
+				<div>
+					<v-btn color="primary" @click="editTarget == null; createDialog = true">新規問題作成</v-btn>
+					<v-btn color="primary" @click="toEditQuizset">問題セットの作成・編集</v-btn>
+				</div>
+				<div class="search">
+					<v-text-field ref="keywordInput" dense outlined placeholder="問題文検索"></v-text-field>
+					<v-btn color="primary" @click="keywordSearch">検索</v-btn>
+				</div>
+			</div>
+			<div class="error-message" th:if="${errors}">
+				<p th:each="e : ${errors}" th:text="'エラー:' + ${e}"></p>
+			</div>
+		</v-container>
+		<v-row>
+			<v-col cols="12" md="1"></v-col>
+			<v-col cols="12" md="10">
+				<v-pagination :length="totalPages" :value="page" @input="changePage($event)">
+				</v-pagination>
+				<v-data-table :headers="headers" :items="customItems" :items-per-page="-1" hide-default-footer disable-sort>
+					<template v-slot:item="{item, index}">
+						<tr>
+							<td>{{(page-1) * 20 + index+1}}</td>
+							<td>{{item.text}}</td>
+							<td>{{item.answers}}</td>
+							<td align="center">{{item.correct_rate}}%</td>
+							<td>
+								<v-btn color="primary" fab x-small @click="editTarget = item; editDialog = true"><v-icon>mdi-pencil</v-icon></v-btn>
+							</td>
+							<td>
+								<v-btn color="error" fab x-small @click="editTarget = item; confirmDeleteDialog = true"><v-icon>mdi-delete</v-icon></v-btn>
+							</td>
+						</tr>
+					</template>
+					<template slot="no-data">
+						<p>{{keyword == null || keyword.length == 0 ? '問題が登録されていません' : 'キーワードにマッチする問題はありません'}}</p>
+					</template>
+				</v-data-table>
+				<v-pagination :length="totalPages" :value="page" @input="changePage($event)">
+				</v-pagination>
+			</v-col>
+			<v-col cols="12" md="1"></v-col>
+			<v-dialog v-model="createDialog" max-width="600px">
+				<template v-slot:activator="{ on, attrs }">
+				</template>
+				<v-card>
+					<v-card-title>問題の新規作成</v-card-title>
+					<v-divider></v-divider>
+					<v-form action="/edit/register" method="POST" id="createForm" @submit.prevent="updateItem('createForm')">
+					<input type="hidden" name="_csrf" :value="csrfToken">
+					<editor ref="editor"></editor>
+					<v-divider></v-divider>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" @click="createDialog = false">戻る</v-btn>
+						<v-btn type="submit" color="primary">登録</v-btn>
+					</v-card-actions>
+					</v-form>
+				</v-card>
+			</v-dialog>
+			<v-dialog v-model="editDialog" max-width="600px">
+				<template v-slot:activator="{ on, attrs }">
+				</template>
+				<v-card>
+					<v-card-title>問題の編集</v-card-title>
+					<v-divider></v-divider>
+					<v-form :action="'/edit/update/' + (editTarget != null ? editTarget.id : '')"
+					method="POST" ref="editForm" id="editForm" @submit.prevent="updateItem('editForm')">
+					<input type="hidden" name="_csrf" :value="csrfToken">
+					<editor :item="editTarget" ref="editor"></editor>
+					<v-divider></v-divider>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" @click="editDialog = false">戻る</v-btn>
+						<v-btn type="submit" color="primary">更新</v-btn>
+					</v-card-actions>
+					</v-form>
+				</v-card>
+			</v-dialog>
+			<v-dialog v-model="confirmDeleteDialog" max-width="600px">
+				<template v-slot:activator="{ on, attrs }">
+				</template>
+				<v-card>
+					<v-card-title>問題の削除</v-card-title>
+					<v-divider></v-divider>
+					<v-container class="px-10" v-if = "editTarget">
+						<h2>以下の問題を削除しますか？</h2>
+						<span>問題文：</span>
+						<v-card-text v-text="editTarget.text"></v-card-text>
+						<span>解答：</span>
+						<v-card-text v-text="editTarget.answers"></v-card-text>
+					</v-container>
+					<v-divider></v-divider>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" @click="confirmDeleteDialog = false">戻る</v-btn>
+						<v-btn color="error" @click="deleteItem(editTarget.id) ; confirmDeleteDialog = false">削除</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</v-row>
+	</v-main>
+
+	<div th:include="__${footer}__">
+	</div>
+</v-app>
+<script th:src="@{/js/edit/quizlist.js}" type="module"></script>
+</body>
+</html>

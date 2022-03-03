@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width">
+<meta name="_csrf" th:content="${_csrf.token}">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<link th:href="@{/css/home.css}" rel="stylesheet">
+<link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:include="__${header}__">
+	</div>
+
+	<v-main style="background: #eee">
+		<div class="loginForm">
+			<h1>アカウントの新規登録</h1>
+			<v-form th:action="@{/signup}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${_csrf.token}"></input>
+				<div class="basicForm">
+					<div class="basicForm--group">
+						<label class="basicForm--label">メールアドレス：</label>
+						<v-text-field label="E-mail" name="mail" filled outlined></v-text-field>
+					</div>
+					<div class="basicForm--group">
+						<label class="basicForm--label">パスワード：</label>
+						<v-text-field label="password" type="password" name="password" filled outlined autocomplete></v-text-field>
+					</div>
+					<div class="basicForm--group">
+						<label class="basicForm--label">パスワード（再度入力）：</label>
+						<v-text-field label="confirm_password" type="password" name="confirmPassword" filled outlined autocomplete></v-text-field>
+					</div>
+					<div th:if="${error}">
+						<v-alert th:each="e : ${error}" th:text="${e}" border="left" type="error" colored-border elevation="2" style="color: rgb(192, 0 , 0); background: rgb(248, 248, 248)"></v-alert>
+					</div>
+					<div class="basicForm--btnWrapper">
+						<v-btn color="primary" type="submit"><v-icon>mdi-account-plus</v-icon>仮登録に進む</v-btn>
+					</div>
+				</div>
+			</v-form>
+		</div>
+	</v-main>
+
+	<div th:include="__${footer}__">
+	</div>
+</v-app>
+<script th:src="@{/js/common.js}" type="module"></script>
+</body>
+</html>

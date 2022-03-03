@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+[v-cloak] {
+	display: none;
+}
+
+tbody tr:not(.leftTable__row--included) {
+	cursor: pointer;
+}
+
+.border {
+	border: 1px solid rgba(0,0,0,.36);
+	border-radius:	4px;
+}
+
+.leftTable__row--included,
+.leftTable__row--included:hover {
+	background:	rgba(0,0,0, .48) !important;
+	color:	#eee
+}
+
+.error-message {
+	text-align: center;
+}
+
+.error-message span {
+	color:	red;
+	font-size:	24px;
+}
+
+thead tr {
+	background-color: #eee;
+}
+
+div.move-dialog-main {
+	display: flex;
+	justify-content:	center;
+}
+
+div.page-input-area {
+	display:flex;
+	height:	50px;
+}
+
+div.page-input-area input {
+	width:	80px;
+	font-size:	24px;
+}
+
+div.page-input-area span {
+	margin-top:	8px;
+	font-size:	24px;
+}

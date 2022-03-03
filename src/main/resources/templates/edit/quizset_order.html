@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex,nofollow">
+  	<meta name="viewport" content="width=device-width">
+  	<meta name="_csrf" th:content="${_csrf.token}">
+  	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  	<link th:href="@{/css/home.css}" rel="stylesheet">
+  	<link th:href="@{/css/quizset_order.css}" rel="stylesheet"></link>
+  	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<title>QuizFund</title>
+</head>
+<body>
+	<v-app id="app" v-scroll="handleScroll" v-cloak>
+		<div th:include="__${header}__">
+		</div>
+
+		<v-container>
+			<v-form th:action="'/edit/quizset/update/' + ${qsid}" method="POST" id="editForm">
+				<input type="hidden" name="_csrf" th:value=${_csrf.token}>
+				<input type="hidden" name="list" ref="list">
+
+				<v-btn color="primary" @click="loadThird">3番目のページ読み込み</v-btn>
+				<v-btn color="primary" @click="save">編集内容を保存</v-btn>
+			</v-form>
+			<ol id="list">
+				<li v-for="(item, index) in items" class="mt-3">
+					<v-card class="quizCard" v-if="item.isVisible" outlined>
+						<p class="serial" v-text="item.serial + '.'"></p>
+						<v-card-title><span class="quiz-text" v-text="'問題: ' + item.text"></span></v-card-title>
+						<v-card-text v-text="'答: ' + item.textAnswer">答: text</v-card-text>
+						<v-btn color="grey darken-1" class="swap-icon" fab small @click="targetId = item.id ; pos = index+1 ; moveDialog = true"><v-icon style="color: white;">mdi-swap-vertical</v-icon></v-btn>
+					</v-card>
+				</li>
+			</ol>
+		</v-container>
+
+		<v-dialog v-model="moveDialog" max-width="600px">
+			<template v-slot:activator="{ on, attrs }">
+			</template>
+			<v-card>
+				<v-card-title>指定位置へ移動</v-card-title>
+				<div class="swap-dialog-main mt-2">
+					<div class="page-input-area">
+						<v-text-field type="number" v-model="pos" outlined required></v-text-field><span>番目に移動</span>
+					</div>
+				</div>
+				<v-container style="display:flex; justify-content: end">
+					<v-btn class="swap-dialog-button" color="primary">移動</v-btn>
+				</v-container>
+			</v-card>
+		</v-dialog>
+
+		<div th:include="__${footer}__">
+		</div>
+	</v-app>
+<script th:src="@{/js/edit/quizset_order.js}" type="module"></script>
+</body>
+</html>

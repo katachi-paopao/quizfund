@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+[v-cloak] {
+	display: none;
+}
+
+.wrapper__textarea {
+	width: 540px;
+}
+
+textarea {
+	font-size:	24px;
+}
+
+input[type="text"] {
+	font-size:	18px;
+}
+
+.v-dialog>.v-card>.v-card__title {
+	font-size:	24px;
+	font-weight: bold;
+}

@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+[v-cloak] {
+	display: none;
+}
+
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:last-child, .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>th:last-child, .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>th:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr:last-child>th {
+	border-bottom: 1px solid #666;
+}
+
+td:not(:last-child){
+	border-right:	1px solid #666;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.search {
+	display:	 			flex;
+	flex-direction:	column;
+	align-items: 		end;
+}
+
+thead tr {
+	background-color: #eee;
+}
+
+th > span {
+	display: flex;
+	justify-content: center;
+}
+div.search>*:nth-child(n+2) {
+	margin-left:	12px;
+}
+
+.quizlist__menu {
+	display:				flex;
+	justify-content:	space-between;
+}
+
+.error-message {
+	text-align: center;
+}
+
+.error-message p {
+	color:	red;
+	font-size:	24px;
+}

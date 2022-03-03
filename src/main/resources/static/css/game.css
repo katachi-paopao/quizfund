@@ -1,0 +1,55 @@
+@charset "UTF-8";
+
+[v-cloak] {
+	display: none;
+}
+
+.v-progress-circular__info {
+	font-size:	32px;
+}
+
+p.hint {
+	font-size:	36px;
+}
+
+p.result {
+	font-size:	48px;
+	text-stroke: 1px #ccc;
+	font-weight: bold;
+	-webkit-text-stroke: 1px #ccc;
+	text-shadow: 1px;
+}
+
+.game__question-panel {
+	width:	640px;
+}
+
+.game__index-panel {
+	border: 1px solid gray;
+	border-radius: 12px 12px 0 0;
+	background-color:	#eee;
+	padding: 4px;
+	width:	120px;
+	margin-bottom: -1px;
+	font-size:	24px;
+	text-align: center;
+}
+
+.game__text-panel {
+	border: 1px solid gray;
+	border-radius: 0 12px 12px 12px;
+	padding: 12px;
+	display:	 flex;
+	flex-direction:	column;
+	align-items: center;
+	width:	640px;
+	height:	240px;
+}
+
+.v-progress-circular {
+	align-self: start;
+}
+
+tbody tr:hover {
+	background-color: #fff !important;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>QuizFund</title>
+</head>
+<body>
+<div th:fragment="contents">
+	<v-card>
+		<v-app-bar color="indigo lighten-3" min-height="96px" height="96px" flat>
+			<div class="titlebar__title" @click="toHome">
+			<v-toolbar-title><span class="titlebar__text">QuizFund</span></v-toolbar-title>
+			</div>
+			<div class="titlebar__content" @click="toEdit">
+				<div class="titlebar__icon--circle"><v-icon color="#eee" size="48">mdi-pencil</v-icon></div>
+				<div>クイズを作る</div>
+			</div>
+			<div class="titlebar__content" @click="toPlay">
+				<div class="titlebar__icon--circle"><v-icon color="#eee" size="48">mdi-lightbulb-on-outline</v-icon></div>
+				<div>クイズを解く</div>
+			</div>
+			<v-spacer></v-spacer>
+			<div class="titlebar__icon">
+			<v-menu
+				v-model="userMenu"
+				open-on-hover
+				:close-on-content-click="false"
+				:nudge-width="200"
+				offset-x
+			>
+				<template v-slot:activator="{ on, attrs }">
+					<div class="titlebar__icon--circle" v-bind="attrs" v-on="on">
+						<v-icon size="48" color="#eee" >mdi-account</v-icon>
+					</div>
+					<span class="titlebar__icon--text" v-bind="attrs" v-on="on">ユーザー情報</span>
+				</template>
+
+				<v-card>
+					<v-list>
+						<v-list-item>
+							<v-list-item-avatar>
+								<v-icon size="48">mdi-account</v-icon>
+							</v-list-item-avatar>
+							<v-list-item-content>
+								<v-list-item-title sec:authorize="!isAuthenticated()"><span>NoName</span></v-list-item-title>
+								<v-list-item-title sec:authorize="isAuthenticated()"><span th:text="${#authentication.getPrincipal().getUsername()}"></span></v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+					</v-list>
+					<v-divider></v-divider>
+					<v-list>
+						<v-list-item>
+							<v-list-item-content>
+								<v-list-item-title>作成問題数：<span th:text="${quizNum != null ? quizNum : '---'}"></span></v-list-item-title>
+								<v-list-item-title>公開問題セット数：<span th:text="${quizsetNum != null ? quizsetNum : '---'}"></span></span></v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+					</v-list>
+					<v-divider></v-divider>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" sec:authorize="!isAuthenticated()"  >
+							<a href="login" style="color: white; text-decoration: none"><v-icon>mdi-login</v-icon>ログイン</a>
+						</v-btn>
+						<form th:action="@{/logout}" method="POST">
+							<input type="hidden" name="_csrf" value="${_csrf.token}"></input>
+							<v-btn color="primary" sec:authorize="isAuthenticated()" type="submit">
+								<v-icon>mdi-logout</v-icon>ログアウト</a>
+							</v-btn>
+						</form>
+					</v-card-actions>
+				</v-card>
+			</v-menu>
+			</div>
+		</v-app-bar>
+	</v-card>
+</div>
+</body>
+</html>

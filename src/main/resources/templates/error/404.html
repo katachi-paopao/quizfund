@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<link th:href="@{/css/home.css}" rel="stylesheet">
+
+<title>404 Not Found</title>
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:include="~{header :: contents}">
+	</div>
+
+	<v-main id="main" class="loginBody">
+	<div class="mt-12">
+		<div class="centerlize">
+			<h1>404 Not Found</h1>
+		</div>
+		<div class="centerlize">
+			<h1>ページが見つかりません</h1>
+		</div>
+		<div class="centerlize">
+			<h1>🐘🐘🐘...</h1>
+		</div>
+	</div>
+	</v-main>
+
+	<div th:include="~{footer :: contents}">
+	</div>
+
+</v-app>
+<script th:src="@{/js/common.js}" type="module"></script>
+</body>
+</html>

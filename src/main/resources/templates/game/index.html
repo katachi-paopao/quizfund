@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width">
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<link th:href="@{/css/home.css}" rel="stylesheet">
+<link th:href="@{/css/quizset_index.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<title>QuizFund</title>
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:include="__${header}__">
+	</div>
+
+	<v-main>
+		<v-container>
+			<div class="quizlist__menu">
+				<div></div>
+				<div class="search">
+					<v-text-field ref="keywordInput" dense outlined placeholder="検索"></v-text-field>
+					<v-btn color="primary" @click="keywordSearch">検索</v-btn>
+				</div>
+			</div>
+		</v-container>
+
+		<v-container>
+			<div v-if="items.length == 0" style="text-align :center;">
+				<p>問題セットがありません</p>
+			</div>
+			<div v-for="item in items" class="quizset-group mt-9">
+				<div class="quizset-group__title" v-text="item.name"></div>
+				<div class="quizset-group__detail">
+					<v-simple-table>
+						<template v-slot:default>
+						<thead>
+							<th>全収録問題数</th>
+							<th>出題問題数</th>
+							<th>ランダム出題</th>
+							<th>のべプレイ回数</th>
+						</thead>
+						<tbody>
+							<td><span v-text="item.quizNum"></span></td>
+							<td><span v-text="item.gameNum"></span></td>
+							<td><span v-text="item.random ? '〇' : '×'"></span></td>
+							<td><span v-text="item.playCount"></span></td>
+						</tbody>
+						</template>
+					</v-simple-table>
+
+					<div class="quizset-group__component">
+						<div class="quizset-group__detail--item">
+							説明: <span v-text="item.introduction"></span>
+						</div>
+					</div>
+				</div>
+				<div class="quizset-group__detail">
+					<div class="quizset-group__component">
+						<v-btn color="primary" class="mr-5" @click="toGamePage(item.id)">問題を解く</v-btn>
+					</div>
+				</div>
+			</div>
+		</v-container>
+	</v-main>
+
+	<div th:include="__${footer}__">
+	</div>
+</v-app>
+<script th:src="@{/js/game/game_index.js}" type="module"></script>
+</body>
+</html>

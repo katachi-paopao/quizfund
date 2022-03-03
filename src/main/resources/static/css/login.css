@@ -1,0 +1,37 @@
+@charset "UTF-8";
+/*
+div.loginForm::after {
+   position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+   content:
+		url("/assets/btn_google_signin_dark_normal_web.png")
+		url("/assets/btn_google_signin_dark_focus_web.png")
+		url("/assets/btn_google_signin_dark_pressed_web.png")
+}
+*/
+
+div.loginForm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction:	column;
+	margin: 64px;
+}
+
+label.basicForm--label {
+	align-self: start;
+	font-weight: bold;
+}
+
+div.v-text-field {
+	width:	24em;
+}
+
+.basicForm--btnWrapper {
+	display: flex;
+	justify-content: end;
+	margin-top:	12px;
+}
+
+input {
+	margin: 0 !important;
+}

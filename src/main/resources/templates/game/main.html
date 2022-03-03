@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex,nofollow">
+  	<meta name="viewport" content="width=device-width">
+  	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  	<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  	<link th:href="@{/css/input.css}" rel="stylesheet"></link>
+  	<link th:href="@{/css/game_main.css}" rel="stylesheet"></link>
+  	<link th:href="@{/css/home.css}" rel="stylesheet">
+  	<script th:src="@{/webjars/sockjs-client/1.0.2/sockjs.min.js}"></script>
+    <script th:src="@{/webjars/stomp-websocket/2.3.3/stomp.min.js}"></script>
+	<title>QuizFund</title>
+</head>
+<body>
+<v-app id="app" v-cloak>
+	<div th:include="__${header}__">
+	</div>
+
+	<v-main class="mt-5">
+		<v-row justify="center">
+			<div v-if="status != 'end'">
+				<v-container>
+					<div class="game__question-panel">
+						<div class="game__index-panel"><span>{{count != 0 ? '第' + count + '問' : '　' }}</span></div>
+						<div class="game__text-panel">
+							<div style="display: flex;">
+									<div class="game__text-panel--qtext">
+										<pre>{{qtext}}</pre>
+									</div>
+									<v-progress-circular  :value="leftTime / 20 * 100" :size="100"
+									class="mr-3"
+									:width="8" :rotate="-90" :color="leftTime > 5 ? 'green' : 'red'" >{{leftTime}}</v-progress-circular>
+							</div>
+							<div>
+								<v-btn th:@click="'start(' + ${id} +')'" v-show="status == 'standby'" outlined color="indigo">game start</v-btn>
+							</div>
+						</div>
+					</div>
+				<v-container>
+			</div>
+		</v-row>
+		<div v-if="isPlaying" class="text-center">
+			<p v-if="status == 'start'">ゲーム起動中...</p>
+			<p v-if="status == 'error'">{{error}}</p>
+		</div>
+		<v-row  justify="center" v-if="isPlaying">
+			<v-container class="text-center">
+				<p v-if="status == 'playing'" class="hint">
+				{{interpret_input_type(input_type)}} {{input_length}}文字
+				<span style="color : rgba(224, 0, 0)">{{input_arbitrary ? '以下' : ''}}</span>
+				で解答</p>
+				<p v-if="status == 'result'" class="result" :style="result == '正解' ? 'color : rgb(224, 0, 0);' :  'color : rgb(0, 0, 64)'">{{result}}</p>
+			</v-container>
+		</v-row>
+		<v-row v-if="isPlaying">
+			<v-container class="text-center">
+				<key-input class="mb-12" ref="input" :block_num="input_length" :type_mode="input_type" :enter_function="enter_function"></key-input>
+			</v-container>
+		</v-row>
+		<v-row v-if="status == 'end'">
+			<v-container>
+				<v-simple-table>
+					<template>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>問題文</th>
+							<th>正答</th>
+							<th>あなたの解答結果</th>
+							<th>得点</th>
+						<tr>
+					</thead>
+					<tbody>
+						<tr v-for="(elem, index) in resultList">
+							<td>{{index+1}}</td>
+							<td>{{elem.question.text}}</td>
+							<td>
+								<div v-if="elem.answers">
+									<p v-for = "answer in elem.answers">{{answer}}</p>
+								</div>
+							</td>
+							<td v-text="elem.correct == true ? '〇' : '×'" class="text-center"></td>
+							<td>{{elem.score}}</td>
+						</tr>
+					</tbody>
+					</template>
+				<v-simple-table>
+				<v-container>
+					<div class="game__resultpage-button-list">
+						<v-btn outlined color="indigo" @click="toPlay">戻る</v-btn>
+						<v-btn class="ml-5" th:@click="'start(' + ${id} +')'" outlined color="indigo">リトライ</v-btn>
+					</div>
+				</v-container>
+			</v-container>
+		</v-row>
+	</v-main>
+
+	<div th:include="__${footer}__">
+	</div>
+
+</v-app>
+	<script th:src="@{/js/game/game_main.js}" type="module"></script>
+
+</body>
+</html>

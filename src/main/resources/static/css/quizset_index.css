@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+div.quizlist__menu {
+	display:				flex;
+	justify-content:	space-between;
+}
+
+div.search {
+	display:	 			flex;
+	flex-direction:	column;
+	align-items: 		end;
+}
+
+div.quizset-group {
+	border: 			green 2px solid;
+	border-radius: 	5px;
+	position:			relative;
+	padding-top:	32px;
+	padding-bottom:	12px;
+	min-height:		40px;
+	display: flex;
+	justify-content:	space-between;
+}
+
+div.quizset-group__title {
+	position:			absolute;
+	padding-right:	0.5em;
+	padding-left:		0.5em;
+	font-size:			24px;
+	font-weight:		bold;
+	top:	0;
+	left:	0;
+	background-color:	white;
+	transform: translateY(-50%) translateX(1em);
+
+	display: flex;
+	align-items: center;
+}
+
+.quizset-group__detail {
+	display:	flex;
+	flex-direction:	column;
+}
+
+.quizset-group__component {
+	display:	flex;
+	padding: 6px;
+}
+
+.quizset-group__component--primary {
+	display:	flex;
+	width:	100%;
+	background:	#ddd;
+}
+
+.quizset-group__detail--item {
+	padding-left:		12px;
+	padding-right:	12px;
+	font-size:	24px;
+	font-color:	#eee;
+}
+
+.v-data-table {
+	margin-top:	12px;
+	margin-left:	36px;
+	margin-bottom:	12px;
+	border: 1px solid #666;
+	border-radius: 0px;
+}
+
+.v-data-table thead th {
+    font-size: 18px !important;
+}
+
+.v-data-table tbody td {
+    font-size: 24px !important;
+}
+
+.theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:last-child, .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>td:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>th:last-child, .theme--light.v-data-table>.v-data-table__wrapper>table>tbody>tr:not(:last-child)>th:not(.v-data-table__mobile-row), .theme--light.v-data-table>.v-data-table__wrapper>table>thead>tr:last-child>th {
+	border-bottom: 1px solid #666;
+}
+
+td:not(:last-child){
+	border-right:	1px solid #666;
+}
+
+thead tr {
+	background-color: #eee;
+}
+
+tbody tr:hover {
+	background-color: #fff !important;
+}
+
+span.open-label {
+	background: red;
+	font-size:	14px;
+	color:	white;
+	padding:	3px;
+	margin-left:	12px;
+}
